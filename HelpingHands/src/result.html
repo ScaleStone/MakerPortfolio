@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Ventures - Matching Opportunities</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Matching Volunteer Opportunities</h1>
+    <form id="matchingOpportunitiesForm">
+        <div id="matching-opportunities"></div>
+        <input type="button" value="Accept Opportunities" onclick="acceptOpportunities()">
+    </form>
+    <script>
+        const matchingOpportunities = JSON.parse(localStorage.getItem("matchingOpportunities"));
+        const formData = JSON.parse(localStorage.getItem("formData"));
+        let selectedOpportunities = [];
+
+        const matchingOpportunitiesDiv = document.getElementById("matching-opportunities");
+      /*  for (const opportunity of matchingOpportunities) {
+            const opportunityDiv = document.createElement("div");
+            opportunityDiv.innerHTML = `
+                <input type="checkbox" id="${opportunity.title}" name="opportunity" value="${opportunity.title}">
+                <label for="${opportunity.title}">${opportunity.title}</label>
+                <p>Location: ${opportunity.location}</p>
+                <p>Date: ${opportunity.date}</p>
+            `;
+            matchingOpportunitiesDiv.appendChild(opportunityDiv);
+        } */
+
+        function acceptOpportunities() {
+            const form = document.getElementById("matchingOpportunitiesForm");
+            const formData = new FormData(form);
+            selectedOpportunities = [];
+
+            formData.getAll("opportunity").forEach((opportunity) => {
+                selectedOpportunities.push(opportunity);
+            });
+
+            if (selectedOpportunities.length > 0) {
+                localStorage.setItem("selectedOpportunities", JSON.stringify(selectedOpportunities));
+                window.location.href = "accept.html";
+            } else {
+                alert("Please select at least one opportunity.");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Ventures - Volunteer History</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Volunteer History</h1>
+    <div id="volunteer-history"></div>
+    <button onclick="location.href='index.html'">Back to Home</button>
+    <script>
+        const volunteerHistory = JSON.parse(localStorage.getItem("volunteerHistory") || "[]");
+
+        const volunteerHistoryDiv = document.getElementById("volunteer-history");
+        for (const entry of volunteerHistory) {
+            const historyEntryDiv = document.createElement("div");
+            historyEntryDiv.innerHTML = `
+                <h3>Name: ${entry.name}</h3>
+                <p>Number of Hours: ${entry.hours}</p>
+                <p>Date of Volunteering: ${entry.date}</p>
+                <p>Zip Code: ${entry.zipCode}</p>
+                <p>Category: ${entry.category}</p>
+                <p>Opportunities:</p>
+                <ul>
+                    ${entry.opportunities.map((opportunity) => `<li>${opportunity}</li>`).join("")}
+                </ul>
+            `;
+            volunteerHistoryDiv.appendChild(historyEntryDiv);
+        }
+    </script>
+</body>
+</html>

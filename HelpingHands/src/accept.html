@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Ventures - Confirmation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Confirmation</h1>
+    <p>You have successfully accepted the following volunteer opportunities:</p>
+    <div id="selected-opportunities"></div>
+    <p>Volunteering Information:</p>
+    <div id="volunteer-info"></div>
+    <button onclick="saveVolunteerHistory()">Save and Go to History</button>
+    <script>
+        const selectedOpportunities = JSON.parse(localStorage.getItem("selectedOpportunities"));
+        const formData = JSON.parse(localStorage.getItem("formData"));
+        let volunteerHistory = JSON.parse(localStorage.getItem("volunteerHistory") || "[]");
+
+        const selectedOpportunitiesDiv = document.getElementById("selected-opportunities");
+        for (const opportunity of selectedOpportunities) {
+            const opportunityDiv = document.createElement("div");
+            opportunityDiv.innerHTML = `<p>${opportunity}</p>`;
+            selectedOpportunitiesDiv.appendChild(opportunityDiv); 
+        }
+
+        const volunteerInfoDiv = document.getElementById("volunteer-info");
+        volunteerInfoDiv.innerHTML = `
+            <p>Name: ${formData["first-name"]} ${formData["last-name"]}</p>
+            <p>Number of Hours: ${formData["hours"]}</p>
+            <p>Date of Volunteering: ${formData["volunteer-date"]}</p>
+            <p>Zip Code: ${formData["zip-code"]}</p>
+            <p>Category: ${formData["category"]}</p>
+        `;
+
+        function saveVolunteerHistory() {
+            const entry = {
+                name: `${formData["first-name"]} ${formData["last-name"]}`,
+                hours: formData["hours"],
+                date: formData["volunteer-date"],
+                zipCode: formData["zip-code"],
+                category: formData["category"],
+                opportunities: selectedOpportunities
+            }; 
+
+            volunteerHistory.push(entry);
+            localStorage.setItem("volunteerHistory", JSON.stringify(volunteerHistory));
+            localStorage.removeItem("selectedOpportunities");
+            window.location.href = "history.html";
+        }
+    </script>
+</body>
+</html>
